@@ -1,7 +1,6 @@
 defmodule Day01 do
   def read_file(filename) do
-    {:ok, body} = File.read(filename)
-    body |> String.trim
+    File.read!(filename) |> String.trim
   end
 
   def calculate_floor(content) do
