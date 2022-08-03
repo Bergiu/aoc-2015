@@ -54,7 +54,7 @@ defmodule Day02 do
   end
 
   def main(_) do
-    IO.puts "AOC 2015 Day 01"
+    IO.puts "AOC 2015 Day 02"
     IO.puts "Part 1: "
     IO.inspect part01()
     IO.puts "Part 2: "
