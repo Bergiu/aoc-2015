@@ -1,38 +1,3 @@
-module strings
-    implicit none
-
-contains
-    function read_file(filename) result(res)
-        character(len=*), intent(in) :: filename
-        character(len=1) :: reader
-        character(len=:), allocatable :: res
-        integer :: i, ios, fu
-        open(newunit=fu, file=filename, iostat=ios, &
-             access="stream", form="unformatted", action="read")
-        if (ios /= 0) stop "Error: opening file failed."
-        res = ""
-        i = 0
-        do
-            read(fu, iostat=ios) reader
-            if (ios /= 0) exit
-            res = res // reader
-            i = i + 1
-        end do
-        close(fu)
-    end function
-
-    subroutine test_read_file()
-        character(len=:), allocatable :: content
-        character(len=7) :: expected
-        character(len=100) :: err
-        content = read_file("input_test.txt")
-        expected = "(((())" // achar(10)  ! 10=newline
-        write (err, *) "Test failed! Expected ",expected," got ", content
-        if (content /= expected) stop err
-    end subroutine
-end module
-
-
 module day01
     use strings
     implicit none
@@ -115,7 +80,6 @@ end module
 program main
     use day01
     use strings
-    call test_read_file()
     call test_count_floor()
     call test_count_position()
     call test_part01()
