@@ -38,12 +38,44 @@ contains
             .or. INDEX(line, "xy") /= 0
     end function
 
+    function amount_pairs(line) result(res)
+        character(len=*), intent(in) :: line
+        character(len=2) :: part
+        integer :: res, i, pos
+        res = 0
+        do i=1, len(line) - 3
+            part = line(i:i+1)
+            pos = INDEX(line(i+2:), part)
+            if (pos /= 0) then
+                res = res + 1
+            end if
+        end do
+    end function
+
+    function amount_repeats(line) result(res)
+        character(len=*), intent(in) :: line
+        integer :: res, i
+        res = 0
+        do i=1, len(line) - 2
+            if (line(i:i) == line(i+2:i+2)) then
+                res = res + 1
+            end if
+        end do
+    end function
+
     function is_nice(line) result(res)
         character(len=*), intent(in) :: line
         logical :: res
         res = (amount_vowels(line) >= 3) &
             .and. (amount_twices(line) >= 1) &
             .and. .not. contains_illegal_strings(line)
+    end function
+
+    function is_real_nice(line) result(res)
+        character(len=*), intent(in) :: line
+        logical :: res
+        res = (amount_pairs(line) >= 1 &
+            .and. amount_repeats(line) >= 1)
     end function
 
     function amount_nice(content) result(res)
@@ -76,12 +108,32 @@ contains
         end do
     end function
 
+    function amount_real_nice(lines) result(res)
+        type(str), dimension(:), allocatable :: lines
+        type(str) :: line
+        integer :: res, i
+        res = 0
+        do i=1, size(lines)
+            if (is_real_nice(-lines(i))) then
+                res = res + 1
+            end if
+        end do
+    end function
+
     function part01(filename) result(res)
         character(len=*), intent(in) :: filename
         character(len=:), allocatable :: content
         integer :: res
         content = read_file(filename)
         res = amount_nice(content)
+    end function
+
+    function part02(filename) result(res)
+        character(len=*), intent(in) :: filename
+        type(str), dimension(:), allocatable :: content
+        integer :: res
+        content = read_lines(filename)
+        res = amount_real_nice(content)
     end function
 end module
 
@@ -94,6 +146,6 @@ program main
     ! call example_split_lines()
     val = part01("input.txt")
     print*, "Part 01:", val
-    ! val = part02("input.txt")
-    ! print*, "Part 02:", val
+    val = part02("input.txt")
+    print*, "Part 02:", val
 end program
