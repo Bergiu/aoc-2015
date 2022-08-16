@@ -1,7 +1,7 @@
 ! shit code
 ! too slow
 module md5_mod
-    use strings
+    use io
     implicit none
 
 contains
@@ -28,7 +28,7 @@ contains
 end module
 
 module day04
-    use strings
+    use io
     use md5_mod
     implicit none
 contains

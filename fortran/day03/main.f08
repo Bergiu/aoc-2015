@@ -1,5 +1,5 @@
 module day03
-    use strings
+    use io
     implicit none
 contains
     function calculate_houses(content) result(res)
@@ -119,7 +119,7 @@ end module
 
 program main
     use day03
-    use strings
+    use io
     integer val
     val = part01("input.txt")
     print *, "Part 1: ", val

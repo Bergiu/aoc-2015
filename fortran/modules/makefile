@@ -1,4 +1,6 @@
-MODULES = $(wildcard *.f08)
+# MODULES = $(wildcard *.f08)
+# The order matters
+MODULES = string_list.f08 strings.f08 io.f08
 MODULES_OBJ = $(patsubst %.f08,%.o,$(MODULES))
 MODULES_MOD = $(patsubst %.f08,%.mod,$(MODULES))
 F08 = gfortran

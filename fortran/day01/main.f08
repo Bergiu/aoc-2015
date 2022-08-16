@@ -1,5 +1,5 @@
 module day01
-    use strings
+    use io
     implicit none
 
 contains
@@ -79,7 +79,7 @@ end module
 
 program main
     use day01
-    use strings
+    use io
     call test_count_floor()
     call test_count_position()
     call test_part01()
