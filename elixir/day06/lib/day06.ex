@@ -1,3 +1,6 @@
+# part 2:
+# beim split aufteilen in overlapping boxes und not overlapping
+# dann im split kein value changen, sondern danach in denen die overlappen
 defmodule Day06 do
   def parse_line(line) do
     # turn off 660,55 through 986,197
@@ -26,8 +29,8 @@ defmodule Day06 do
 
   def split_x(from, to, status, box) do
     {{bxfrom, byfrom}, {bxto, byto}, boxstatus} = box
-    {fromx, fromy} = from
-    {tox, toy} = to
+    {fromx, _} = from
+    {tox, _} = to
     new_boxes = if bxfrom < fromx and fromx <= bxto do
       # split head
       head = {{bxfrom, byfrom}, {fromx-1, byto}, boxstatus}
@@ -98,13 +101,14 @@ defmodule Day06 do
     |> Enum.map(&parse_line/1)
     |> Enum.reduce([{{0,0},{999,999},false}], &reduce_line/2)
     |> Enum.filter(fn ({_,_,status}) -> status end)
-    |> Enum.reduce(0, fn ({{fromx, fromy}, {tox, toy}, status}, counter) ->
+    |> Enum.reduce(0, fn ({{fromx, fromy}, {tox, toy}, _}, counter) ->
       counter + (tox - fromx + 1) * (toy - fromy + 1)
     end)
   end
 
   def main(_) do
-    IO.puts "Hello World"
-    part01() |> IO.inspect
+    IO.puts "AOC 2015 Day 06"
+    IO.puts "Part 1: "
+    part01() |> IO.puts
   end
 end
